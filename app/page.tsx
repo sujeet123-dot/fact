@@ -37,7 +37,7 @@ export default async function HomePage() {
           <Link
             key={cat.slug}
             href={`/category/${cat.slug}`}
-            className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-stone-500 hover:text-[#c0392b] transition-colors"
+            className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-stone-500 hover:text-[#c9a84c] transition-colors"
           >
             <span>{cat.icon}</span>
             {cat.name}
@@ -110,7 +110,7 @@ export default async function HomePage() {
             ))}
           </div>
           <div className="mt-6 border-t border-[#ddd9d2] pt-4">
-            <Link href="/search" className="text-xs font-semibold uppercase tracking-widest text-stone-400 hover:text-[#c0392b] transition-colors">
+            <Link href="/search" className="text-xs font-semibold uppercase tracking-widest text-stone-400 hover:text-[#c9a84c] transition-colors">
               Browse all fact checks →
             </Link>
           </div>

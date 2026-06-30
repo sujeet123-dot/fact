@@ -28,7 +28,7 @@ export default function TrendingSidebar({ facts }: { facts: TrendingFact[] }) {
           >
             <span className="font-serif font-black text-2xl text-stone-200 leading-none w-6 shrink-0">{i + 1}</span>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-[#0c0c0b] group-hover:text-[#c0392b] line-clamp-2 leading-snug transition-colors">
+              <p className="text-sm font-semibold text-[#0c0c0b] group-hover:text-[#c9a84c] line-clamp-2 leading-snug transition-colors">
                 {fact.title}
               </p>
               <div className="mt-1.5 flex items-center gap-2">

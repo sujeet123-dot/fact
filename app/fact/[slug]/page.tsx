@@ -108,9 +108,9 @@ export default async function FactPage({ params }: PageProps) {
         <article className="lg:col-span-2">
           {/* Breadcrumb */}
           <nav className="flex items-center gap-2 text-xs text-stone-400 mb-6 uppercase tracking-wide font-semibold">
-            <Link href="/" className="hover:text-[#c0392b] transition-colors">Home</Link>
+            <Link href="/" className="hover:text-[#c9a84c] transition-colors">Home</Link>
             <span>/</span>
-            <Link href={`/category/${fact.category}`} className="hover:text-[#c0392b] transition-colors capitalize">{fact.category}</Link>
+            <Link href={`/category/${fact.category}`} className="hover:text-[#c9a84c] transition-colors capitalize">{fact.category}</Link>
           </nav>
 
           {/* Verdict banner */}
@@ -177,7 +177,7 @@ export default async function FactPage({ params }: PageProps) {
                   <li key={i} className="flex items-start gap-2 text-sm">
                     <span className="text-stone-300 mt-0.5 shrink-0">→</span>
                     <a href={source.url} target="_blank" rel="noopener noreferrer"
-                      className="text-stone-600 hover:text-[#c0392b] hover:underline transition-colors">
+                      className="text-stone-600 hover:text-[#c9a84c] hover:underline transition-colors">
                       {source.label}
                     </a>
                   </li>

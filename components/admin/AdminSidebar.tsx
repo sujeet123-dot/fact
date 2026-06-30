@@ -69,7 +69,7 @@ export default function AdminSidebar({ email }: { email: string }) {
         <p className="text-white text-xs font-medium truncate mb-3">{email}</p>
         <button
           onClick={handleLogout}
-          className="w-full text-left text-xs text-stone-500 hover:text-[#c0392b] transition-colors"
+          className="w-full text-left text-xs text-stone-500 hover:text-[#c9a84c] transition-colors"
         >
           Sign out →
         </button>

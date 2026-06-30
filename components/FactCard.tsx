@@ -32,7 +32,7 @@ export default function FactCard({ fact, variant = 'default' }: FactCardProps) {
     return (
       <Link href={`/fact/${fact.slug}`} className="flex items-start gap-2.5 py-3 border-b border-stone-100 hover:bg-stone-50 px-2 rounded transition-colors group last:border-0">
         <VerdictBadge verdict={fact.verdict} size="sm" />
-        <p className="text-sm text-stone-800 group-hover:text-[#c0392b] line-clamp-2 leading-snug transition-colors">{fact.title}</p>
+        <p className="text-sm text-stone-800 group-hover:text-[#c9a84c] line-clamp-2 leading-snug transition-colors">{fact.title}</p>
       </Link>
     )
   }
@@ -45,7 +45,7 @@ export default function FactCard({ fact, variant = 'default' }: FactCardProps) {
           <VerdictBadge verdict={fact.verdict} size="md" />
           <span className="text-xs font-semibold uppercase tracking-widest text-stone-400">{fact.category}</span>
         </div>
-        <h2 className="font-serif font-black text-[#0c0c0b] text-3xl md:text-4xl leading-tight group-hover:text-[#c0392b] transition-colors line-clamp-3">
+        <h2 className="font-serif font-black text-[#0c0c0b] text-3xl md:text-4xl leading-tight group-hover:text-[#c9a84c] transition-colors line-clamp-3">
           {fact.title}
         </h2>
         <p className="mt-3 text-stone-600 text-base leading-relaxed line-clamp-3 max-w-2xl">{fact.summary}</p>
@@ -80,7 +80,7 @@ export default function FactCard({ fact, variant = 'default' }: FactCardProps) {
         <VerdictBadge verdict={fact.verdict} size="sm" />
         <span className="text-[10px] font-bold uppercase tracking-widest text-stone-400">{fact.category}</span>
       </div>
-      <h3 className="font-serif font-bold text-[#0c0c0b] text-base leading-snug group-hover:text-[#c0392b] transition-colors line-clamp-2">
+      <h3 className="font-serif font-bold text-[#0c0c0b] text-base leading-snug group-hover:text-[#c9a84c] transition-colors line-clamp-2">
         {fact.title}
       </h3>
       <p className="text-sm text-stone-500 mt-1.5 line-clamp-2 leading-relaxed">{fact.summary}</p>

@@ -47,7 +47,7 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
       {/* Page header */}
       <div className="border-b-2 border-[#0c0c0b] pb-5 mb-8">
         <nav className="flex items-center gap-2 text-xs text-stone-400 uppercase tracking-wide font-semibold mb-4">
-          <Link href="/" className="hover:text-[#c0392b] transition-colors">Home</Link>
+          <Link href="/" className="hover:text-[#c9a84c] transition-colors">Home</Link>
           <span>/</span>
           <span className="text-stone-600">{catName}</span>
         </nav>

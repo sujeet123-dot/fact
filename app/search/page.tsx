@@ -74,7 +74,7 @@ export default async function SearchPage({ searchParams }: PageProps) {
         <div className="text-center py-24">
           <p className="font-serif text-2xl text-stone-400 mb-2">No results for "{q}"</p>
           <p className="text-sm text-stone-400 mb-6">Try different keywords or browse by topic.</p>
-          <Link href="/" className="text-xs font-semibold uppercase tracking-widest text-stone-500 hover:text-[#c0392b] transition-colors">
+          <Link href="/" className="text-xs font-semibold uppercase tracking-widest text-stone-500 hover:text-[#c9a84c] transition-colors">
             ← Back to homepage
           </Link>
         </div>
