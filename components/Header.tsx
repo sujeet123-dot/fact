@@ -39,8 +39,9 @@ export default function Header() {
           </span>
 
           {/* Logo */}
-          <Link href="/" className="flex-1 flex justify-center sm:flex-none sm:justify-start">
-            <Image src="/logo.png" alt="FactBrief" width={160} height={44} priority className="h-10 w-auto object-contain" />
+          <Link href="/" className="flex-1 flex justify-center sm:flex-none sm:justify-start items-center gap-2">
+            <Image src="/logo.png" alt="FactBrief" width={40} height={40} priority className="h-10 w-auto object-contain" />
+            <span className="font-serif text-2xl sm:text-3xl font-black tracking-tight text-[#0c0c0b] leading-none">FactBrief</span>
           </Link>
 
           {/* Right: search icon */}

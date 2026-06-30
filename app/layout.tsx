@@ -40,7 +40,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="max-w-7xl mx-auto px-4 py-12">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
               <div className="md:col-span-2">
-                <Image src="/logo.png" alt="FactBrief" width={140} height={40} className="h-10 w-auto object-contain brightness-0 invert mb-2" />
+                <div className="flex items-center gap-2 mb-2">
+                  <Image src="/logo.png" alt="FactBrief" width={36} height={36} className="h-9 w-auto object-contain brightness-0 invert" />
+                  <span className="font-serif text-2xl font-black tracking-tight">FactBrief</span>
+                </div>
                 <p className="text-stone-400 text-sm leading-relaxed max-w-sm">
                   Independent fact-checking journalism. We investigate viral claims, political statements,
                   and internet rumors — so you know what's actually true.
