@@ -5,6 +5,8 @@ import TrendingSidebar from '@/components/TrendingSidebar'
 import Link from 'next/link'
 import { Verdict } from '@/lib/models/Fact'
 
+export const revalidate = 60
+
 async function getData() {
   await connectDB()
   const [lead, featured, latest, trending] = await Promise.all([
