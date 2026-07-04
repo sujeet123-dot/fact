@@ -2,8 +2,9 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import { AnimatePresence, motion } from 'motion/react'
 
 const NAV_LINKS = [
   { label: 'Politics', href: '/category/politics' },
@@ -14,11 +15,35 @@ const NAV_LINKS = [
   { label: 'Environment', href: '/category/environment' },
 ]
 
+function NavLink({ href, label }: { href: string; label: string }) {
+  const pathname = usePathname()
+  const active = pathname === href
+  return (
+    <Link
+      href={href}
+      className="group relative block px-4 py-3 text-xs font-semibold uppercase tracking-widest text-stone-600 hover:text-[#0c0c0b] transition-colors whitespace-nowrap"
+    >
+      {label}
+      <span
+        className={`pointer-events-none absolute bottom-1.5 left-4 right-4 h-[2px] origin-left scale-x-0 bg-[#c9a84c] transition-transform duration-300 ease-out group-hover:scale-x-100 ${active ? 'scale-x-100' : ''}`}
+      />
+    </Link>
+  )
+}
+
 export default function Header() {
   const [query, setQuery] = useState('')
   const [searchOpen, setSearchOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
   const router = useRouter()
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
@@ -30,7 +55,9 @@ export default function Header() {
   }
 
   return (
-    <header className="bg-[#faf9f6] border-b border-[#ddd9d2]">
+    <header
+      className={`sticky top-0 z-50 bg-[#faf9f6]/90 backdrop-blur-md border-b border-[#ddd9d2] transition-shadow duration-300 ${scrolled ? 'shadow-[0_2px_16px_rgba(12,12,11,0.06)]' : ''}`}
+    >
       {/* Top strip */}
       <div className="border-b border-[#ddd9d2]">
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
@@ -69,28 +96,36 @@ export default function Header() {
       </div>
 
       {/* Search bar (toggleable) */}
-      {searchOpen && (
-        <div className="border-b border-[#ddd9d2] bg-white">
-          <div className="max-w-2xl mx-auto px-4 py-3">
-            <form onSubmit={handleSearch} className="flex gap-2">
-              <input
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search fact checks..."
-                autoFocus
-                className="flex-1 px-3 py-2 border border-stone-300 text-sm focus:outline-none focus:border-stone-500 bg-white"
-              />
-              <button type="submit" className="px-4 py-2 bg-[#0c0c0b] text-white text-sm font-medium hover:bg-stone-800 transition-colors">
-                Search
-              </button>
-              <button type="button" onClick={() => setSearchOpen(false)} className="px-3 py-2 text-stone-400 hover:text-stone-700 text-sm">
-                ✕
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
+      <AnimatePresence initial={false}>
+        {searchOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: 'easeOut' }}
+            className="border-b border-[#ddd9d2] bg-white overflow-hidden"
+          >
+            <div className="max-w-2xl mx-auto px-4 py-3">
+              <form onSubmit={handleSearch} className="flex gap-2">
+                <input
+                  type="text"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Search fact checks..."
+                  autoFocus
+                  className="flex-1 px-3 py-2 border border-stone-300 text-sm focus:outline-none focus:border-stone-500 bg-white"
+                />
+                <button type="submit" className="px-4 py-2 bg-[#0c0c0b] text-white text-sm font-medium hover:bg-stone-800 transition-colors">
+                  Search
+                </button>
+                <button type="button" onClick={() => setSearchOpen(false)} className="px-3 py-2 text-stone-400 hover:text-stone-700 text-sm">
+                  ✕
+                </button>
+              </form>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Nav bar */}
       <nav className="hidden sm:block border-b border-[#ddd9d2]">
@@ -98,12 +133,7 @@ export default function Header() {
           <ul className="flex items-center gap-0 overflow-x-auto">
             {NAV_LINKS.map((link) => (
               <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className="block px-4 py-3 text-xs font-semibold uppercase tracking-widest text-stone-600 hover:text-[#0c0c0b] hover:bg-stone-100 transition-colors whitespace-nowrap"
-                >
-                  {link.label}
-                </Link>
+                <NavLink href={link.href} label={link.label} />
               </li>
             ))}
             <li className="ml-auto">
@@ -116,30 +146,38 @@ export default function Header() {
       </nav>
 
       {/* Mobile nav */}
-      {menuOpen && (
-        <div className="sm:hidden border-b border-[#ddd9d2] bg-white">
-          <form onSubmit={handleSearch} className="flex gap-2 p-3 border-b border-stone-100">
-            <input
-              type="text"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search fact checks..."
-              className="flex-1 px-3 py-2 border border-stone-300 text-sm focus:outline-none"
-            />
-            <button type="submit" className="px-3 py-2 bg-[#0c0c0b] text-white text-sm">Go</button>
-          </form>
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setMenuOpen(false)}
-              className="block px-4 py-3 text-sm font-medium text-stone-700 hover:bg-stone-50 border-b border-stone-100"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
-      )}
+      <AnimatePresence initial={false}>
+        {menuOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: 'easeOut' }}
+            className="sm:hidden border-b border-[#ddd9d2] bg-white overflow-hidden"
+          >
+            <form onSubmit={handleSearch} className="flex gap-2 p-3 border-b border-stone-100">
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search fact checks..."
+                className="flex-1 px-3 py-2 border border-stone-300 text-sm focus:outline-none"
+              />
+              <button type="submit" className="px-3 py-2 bg-[#0c0c0b] text-white text-sm">Go</button>
+            </form>
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setMenuOpen(false)}
+                className="block px-4 py-3 text-sm font-medium text-stone-700 hover:bg-stone-50 border-b border-stone-100"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   )
 }

@@ -78,6 +78,43 @@ body {
   overflow: hidden;
 }
 
+/* ── Motion primitives ── */
+
+@keyframes border-beam {
+  100% {
+    offset-distance: 100%;
+  }
+}
+
+.animate-border-beam {
+  offset-distance: 0%;
+  animation: border-beam var(--beam-duration, 8s) linear infinite;
+  animation-delay: var(--beam-delay, 0s);
+}
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 3.5s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--marquee-gap, 2rem)));
+  }
+}
+
+.animate-marquee {
+  animation: marquee var(--marquee-duration, 30s) linear infinite;
+}
+
 /* Section rule — thin horizontal divider with label */
 .section-rule {
   display: flex;

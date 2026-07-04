@@ -4,6 +4,8 @@ import FactCard from '@/components/FactCard'
 import TrendingSidebar from '@/components/TrendingSidebar'
 import Link from 'next/link'
 import { Verdict } from '@/lib/models/Fact'
+import { Marquee } from '@/components/magicui/marquee'
+import { BlurFade } from '@/components/magicui/blur-fade'
 
 export const revalidate = 60
 
@@ -47,6 +49,28 @@ export default async function HomePage() {
         ))}
       </div>
 
+      {/* Headline ticker */}
+      {latest.length > 0 && (
+        <div className="mb-10 border-y border-[#0c0c0b] bg-[#0c0c0b] text-white">
+          <div className="flex items-center">
+            <span className="shrink-0 bg-[#c9a84c] px-3 py-2 text-[10px] font-black uppercase tracking-widest text-[#0c0c0b]">
+              Latest
+            </span>
+            <Marquee duration={35} className="py-2">
+              {latest.map((fact) => (
+                <Link
+                  key={String(fact._id)}
+                  href={`/fact/${fact.slug}`}
+                  className="text-xs font-medium text-stone-300 hover:text-white transition-colors whitespace-nowrap"
+                >
+                  {fact.title}
+                </Link>
+              ))}
+            </Marquee>
+          </div>
+        </div>
+      )}
+
       {/* Lead story + trending sidebar */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
         <div className="lg:col-span-2">
@@ -86,12 +110,13 @@ export default async function HomePage() {
             <h2 className="text-xs font-bold uppercase tracking-widest text-[#0c0c0b] whitespace-nowrap">Editor's Picks</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[#ddd9d2]">
-            {featured.map((fact) => (
-              <FactCard
-                key={String(fact._id)}
-                fact={{ ...fact, _id: String(fact._id), createdAt: fact.createdAt.toISOString() } as any}
-                variant="featured"
-              />
+            {featured.map((fact, i) => (
+              <BlurFade key={String(fact._id)} delay={i * 0.1}>
+                <FactCard
+                  fact={{ ...fact, _id: String(fact._id), createdAt: fact.createdAt.toISOString() } as any}
+                  variant="featured"
+                />
+              </BlurFade>
             ))}
           </div>
         </section>
@@ -104,11 +129,12 @@ export default async function HomePage() {
             <h2 className="text-xs font-bold uppercase tracking-widest text-[#0c0c0b] whitespace-nowrap">Latest Fact Checks</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
-            {latest.map((fact) => (
-              <FactCard
-                key={String(fact._id)}
-                fact={{ ...fact, _id: String(fact._id), createdAt: fact.createdAt.toISOString() } as any}
-              />
+            {latest.map((fact, i) => (
+              <BlurFade key={String(fact._id)} delay={i * 0.06}>
+                <FactCard
+                  fact={{ ...fact, _id: String(fact._id), createdAt: fact.createdAt.toISOString() } as any}
+                />
+              </BlurFade>
             ))}
           </div>
           <div className="mt-6 border-t border-[#ddd9d2] pt-4">

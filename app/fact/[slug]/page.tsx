@@ -8,6 +8,10 @@ import { Verdict } from '@/lib/models/Fact'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Script from 'next/script'
+import { BorderBeam } from '@/components/magicui/border-beam'
+import { BlurFade } from '@/components/magicui/blur-fade'
+import { NumberTicker } from '@/components/magicui/number-ticker'
+import { TextGenerateEffect } from '@/components/ui/text-generate-effect'
 
 const VERDICT_RATING: Record<string, { value: string; name: string }> = {
   true:     { value: '5', name: 'True' },
@@ -108,37 +112,38 @@ export default async function FactPage({ params }: PageProps) {
         <article className="lg:col-span-2">
           {/* Breadcrumb */}
           <nav className="flex items-center gap-2 text-xs text-stone-400 mb-6 uppercase tracking-wide font-semibold">
-            <Link href="/" className="hover:text-[#c9a84c] transition-colors">Home</Link>
+            <Link href="/" className="hover:text-accent transition-colors">Home</Link>
             <span>/</span>
-            <Link href={`/category/${fact.category}`} className="hover:text-[#c9a84c] transition-colors capitalize">{fact.category}</Link>
+            <Link href={`/category/${fact.category}`} className="hover:text-accent transition-colors capitalize">{fact.category}</Link>
           </nav>
 
           {/* Verdict banner */}
-          <div className={`border p-5 mb-6 ${verdictBg[fact.verdict] || verdictBg.unproven}`}>
+          <div className={`relative overflow-hidden border p-5 mb-6 ${verdictBg[fact.verdict] || verdictBg.unproven}`}>
+            <BorderBeam size={140} duration={9} />
             <div className="flex items-center gap-3">
-              <VerdictBadge verdict={fact.verdict as Verdict} size="lg" />
+              <VerdictBadge verdict={fact.verdict as Verdict} size="lg" glow />
               <p className="text-sm font-medium text-stone-700">
-                {verdictSummary[fact.verdict as Verdict]}
+                <TextGenerateEffect words={verdictSummary[fact.verdict as Verdict]} />
               </p>
             </div>
           </div>
 
           {/* Title */}
-          <h1 className="font-serif font-black text-[#0c0c0b] text-3xl md:text-4xl leading-tight mb-4">
+          <h1 className="font-serif font-black text-ink text-3xl md:text-4xl leading-tight mb-4">
             {fact.title}
           </h1>
 
           {/* Meta */}
-          <div className="flex flex-wrap items-center gap-3 text-xs text-stone-400 uppercase tracking-wide mb-8 pb-6 border-b border-[#ddd9d2]">
+          <div className="flex flex-wrap items-center gap-3 text-xs text-stone-400 uppercase tracking-wide mb-8 pb-6 border-b border-border">
             <span className="font-semibold text-stone-600">{fact.author}</span>
             <span>·</span>
             <span>{format(new Date(fact.createdAt), 'MMMM d, yyyy')}</span>
             <span>·</span>
-            <span>{fact.viewCount.toLocaleString()} views</span>
+            <span className="inline-flex items-center gap-1"><NumberTicker value={fact.viewCount} /> views</span>
           </div>
 
           {/* Claim box */}
-          <div className="border-l-4 border-[#0c0c0b] pl-5 mb-6 py-1">
+          <div className="border-l-4 border-ink pl-5 mb-6 py-1">
             <p className="text-[10px] font-bold uppercase tracking-widest text-stone-400 mb-2">The Claim</p>
             <p className="text-stone-800 font-serif text-lg italic leading-relaxed">
               "{fact.claim}"
@@ -146,7 +151,7 @@ export default async function FactPage({ params }: PageProps) {
           </div>
 
           {/* Summary callout */}
-          <div className="bg-stone-100 border border-[#ddd9d2] p-5 mb-8">
+          <div className="bg-stone-100 border border-border p-5 mb-8">
             <p className="text-[10px] font-bold uppercase tracking-widest text-stone-400 mb-2">Our Verdict in Brief</p>
             <p className="text-stone-800 leading-relaxed text-sm">{fact.summary}</p>
           </div>
@@ -156,45 +161,49 @@ export default async function FactPage({ params }: PageProps) {
 
           {/* Tags */}
           {fact.tags && fact.tags.length > 0 && (
-            <div className="mt-10 pt-6 border-t border-[#ddd9d2]">
-              <p className="text-[10px] font-bold text-stone-400 uppercase tracking-widest mb-3">Tags</p>
-              <div className="flex flex-wrap gap-2">
-                {fact.tags.map((tag: string) => (
-                  <span key={tag} className="px-2.5 py-1 border border-stone-300 text-stone-600 text-xs capitalize hover:border-stone-500 transition-colors">
-                    {tag}
-                  </span>
-                ))}
+            <BlurFade>
+              <div className="mt-10 pt-6 border-t border-border">
+                <p className="text-[10px] font-bold text-stone-400 uppercase tracking-widest mb-3">Tags</p>
+                <div className="flex flex-wrap gap-2">
+                  {fact.tags.map((tag: string) => (
+                    <span key={tag} className="px-2.5 py-1 border border-stone-300 text-stone-600 text-xs capitalize hover:border-stone-500 transition-colors">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
+            </BlurFade>
           )}
 
           {/* Sources */}
           {fact.sources && fact.sources.length > 0 && (
-            <div className="mt-6 pt-6 border-t border-[#ddd9d2]">
-              <p className="text-[10px] font-bold text-stone-400 uppercase tracking-widest mb-3">Sources</p>
-              <ul className="space-y-2">
-                {fact.sources.map((source: { label: string; url: string }, i: number) => (
-                  <li key={i} className="flex items-start gap-2 text-sm">
-                    <span className="text-stone-300 mt-0.5 shrink-0">→</span>
-                    <a href={source.url} target="_blank" rel="noopener noreferrer"
-                      className="text-stone-600 hover:text-[#c9a84c] hover:underline transition-colors">
-                      {source.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <BlurFade delay={0.1}>
+              <div className="mt-6 pt-6 border-t border-border">
+                <p className="text-[10px] font-bold text-stone-400 uppercase tracking-widest mb-3">Sources</p>
+                <ul className="space-y-2">
+                  {fact.sources.map((source: { label: string; url: string }, i: number) => (
+                    <li key={i} className="flex items-start gap-2 text-sm">
+                      <span className="text-stone-300 mt-0.5 shrink-0">→</span>
+                      <a href={source.url} target="_blank" rel="noopener noreferrer"
+                        className="text-stone-600 hover:text-accent hover:underline transition-colors">
+                        {source.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </BlurFade>
           )}
         </article>
 
         {/* ── Sidebar ── */}
-        <aside className="space-y-8 lg:border-l lg:border-[#ddd9d2] lg:pl-8">
+        <aside className="space-y-8 lg:border-l lg:border-border lg:pl-8">
           {/* Verdict detail */}
           <div>
             <div className="section-rule">
-              <h3 className="text-xs font-bold uppercase tracking-widest text-[#0c0c0b] whitespace-nowrap">Verdict</h3>
+              <h3 className="text-xs font-bold uppercase tracking-widest text-ink whitespace-nowrap">Verdict</h3>
             </div>
-            <div className="border-t-2 border-[#0c0c0b] pt-4 flex flex-col items-start gap-3">
+            <div className="border-t-2 border-ink pt-4 flex flex-col items-start gap-3">
               <VerdictBadge verdict={fact.verdict as Verdict} size="lg" />
               <p className="text-sm text-stone-600 leading-relaxed">{verdictSummary[fact.verdict as Verdict]}</p>
             </div>
@@ -204,15 +213,16 @@ export default async function FactPage({ params }: PageProps) {
           {related.length > 0 && (
             <div>
               <div className="section-rule">
-                <h3 className="text-xs font-bold uppercase tracking-widest text-[#0c0c0b] whitespace-nowrap">Related</h3>
+                <h3 className="text-xs font-bold uppercase tracking-widest text-ink whitespace-nowrap">Related</h3>
               </div>
-              <div className="border-t-2 border-[#0c0c0b]">
-                {related.map((r) => (
-                  <FactCard
-                    key={String(r._id)}
-                    fact={{ ...r, _id: String(r._id), createdAt: r.createdAt.toISOString() } as any}
-                    variant="compact"
-                  />
+              <div className="border-t-2 border-ink">
+                {related.map((r, i) => (
+                  <BlurFade key={String(r._id)} delay={i * 0.08}>
+                    <FactCard
+                      fact={{ ...r, _id: String(r._id), createdAt: r.createdAt.toISOString() } as any}
+                      variant="compact"
+                    />
+                  </BlurFade>
                 ))}
               </div>
             </div>
