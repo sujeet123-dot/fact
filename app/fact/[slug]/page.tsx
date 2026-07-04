@@ -8,7 +8,6 @@ import { Verdict } from '@/lib/models/Fact'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Script from 'next/script'
-import { BorderBeam } from '@/components/magicui/border-beam'
 import { BlurFade } from '@/components/magicui/blur-fade'
 import { NumberTicker } from '@/components/magicui/number-ticker'
 import { TextGenerateEffect } from '@/components/ui/text-generate-effect'
@@ -119,7 +118,6 @@ export default async function FactPage({ params }: PageProps) {
 
           {/* Verdict banner */}
           <div className={`relative overflow-hidden border p-5 mb-6 ${verdictBg[fact.verdict] || verdictBg.unproven}`}>
-            <BorderBeam size={140} duration={9} />
             <div className="flex items-center gap-3">
               <VerdictBadge verdict={fact.verdict as Verdict} size="lg" glow />
               <p className="text-sm font-medium text-stone-700">

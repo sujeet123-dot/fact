@@ -4,7 +4,6 @@ import Link from 'next/link'
 import { format } from 'date-fns'
 import { motion } from 'motion/react'
 import VerdictBadge from './VerdictBadge'
-import { BorderBeam } from './magicui/border-beam'
 import { Verdict } from '@/lib/models/Fact'
 
 interface FactCardProps {
@@ -49,8 +48,16 @@ export default function FactCard({ fact, variant = 'default' }: FactCardProps) {
         transition={{ duration: 0.2 }}
         className="relative border-t-2 border-[#0c0c0b] pt-4"
       >
-        <BorderBeam size={160} duration={10} />
         <Link href={`/fact/${fact.slug}`} className="group block">
+          {fact.imageUrl && (
+            <div className="mb-4 aspect-[16/9] overflow-hidden rounded-lg shadow-sm">
+              <img
+                src={fact.imageUrl}
+                alt={fact.title}
+                className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+            </div>
+          )}
           <div className="flex items-center gap-2 mb-3">
             <VerdictBadge verdict={fact.verdict} size="md" />
             <span className="text-xs font-semibold uppercase tracking-widest text-stone-400">{fact.category}</span>
@@ -68,20 +75,34 @@ export default function FactCard({ fact, variant = 'default' }: FactCardProps) {
   /* ── Featured: dark editorial card ── */
   if (variant === 'featured') {
     return (
-      <motion.div whileHover={{ y: -3 }} transition={{ duration: 0.2 }} className="relative h-full bg-[#0c0c0b] overflow-hidden">
-        <BorderBeam size={120} duration={9} colorFrom="#c9a84c" colorTo="#f5e6b8" />
-        <Link href={`/fact/${fact.slug}`} className="group block p-6 h-full hover:bg-stone-900/60 transition-colors">
-          <div className="flex items-center gap-2 mb-3">
-            <VerdictBadge verdict={fact.verdict} size="sm" />
-            <span className="text-[10px] font-bold uppercase tracking-widest text-stone-500">{fact.category}</span>
+      <motion.div
+        whileHover={{ y: -3 }}
+        transition={{ duration: 0.2 }}
+        className="relative h-full bg-[#0c0c0b] overflow-hidden rounded-lg shadow-sm hover:shadow-xl transition-shadow duration-300"
+      >
+        <Link href={`/fact/${fact.slug}`} className="group flex h-full flex-col">
+          {fact.imageUrl && (
+            <div className="aspect-[16/9] overflow-hidden">
+              <img
+                src={fact.imageUrl}
+                alt={fact.title}
+                className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+            </div>
+          )}
+          <div className="flex-1 p-6 hover:bg-stone-900/60 transition-colors">
+            <div className="flex items-center gap-2 mb-3">
+              <VerdictBadge verdict={fact.verdict} size="sm" />
+              <span className="text-[10px] font-bold uppercase tracking-widest text-stone-500">{fact.category}</span>
+            </div>
+            <h3 className="font-serif font-bold text-white text-xl leading-snug group-hover:text-stone-200 transition-colors line-clamp-3">
+              {fact.title}
+            </h3>
+            <p className="mt-2 text-stone-400 text-sm leading-relaxed line-clamp-2">{fact.summary}</p>
+            <p className="text-[11px] text-stone-600 mt-3 uppercase tracking-wide">
+              {fact.author} · {format(new Date(fact.createdAt), 'MMM d, yyyy')}
+            </p>
           </div>
-          <h3 className="font-serif font-bold text-white text-xl leading-snug group-hover:text-stone-200 transition-colors line-clamp-3">
-            {fact.title}
-          </h3>
-          <p className="mt-2 text-stone-400 text-sm leading-relaxed line-clamp-2">{fact.summary}</p>
-          <p className="text-[11px] text-stone-600 mt-3 uppercase tracking-wide">
-            {fact.author} · {format(new Date(fact.createdAt), 'MMM d, yyyy')}
-          </p>
         </Link>
       </motion.div>
     )
@@ -90,16 +111,27 @@ export default function FactCard({ fact, variant = 'default' }: FactCardProps) {
   /* ── Default: standard story card ── */
   return (
     <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
-      <Link href={`/fact/${fact.slug}`} className="group block border-t border-[#ddd9d2] pt-4 pb-4 hover:bg-stone-50 px-1 transition-colors">
-        <div className="flex items-center gap-2 mb-2">
-          <VerdictBadge verdict={fact.verdict} size="sm" />
-          <span className="text-[10px] font-bold uppercase tracking-widest text-stone-400">{fact.category}</span>
+      <Link href={`/fact/${fact.slug}`} className="group flex gap-4 border-t border-[#ddd9d2] pt-4 pb-4 hover:bg-stone-50 px-1 transition-colors">
+        {fact.imageUrl && (
+          <div className="hidden sm:block h-20 w-20 shrink-0 overflow-hidden rounded-md shadow-sm">
+            <img
+              src={fact.imageUrl}
+              alt={fact.title}
+              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+            />
+          </div>
+        )}
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-2 mb-2">
+            <VerdictBadge verdict={fact.verdict} size="sm" />
+            <span className="text-[10px] font-bold uppercase tracking-widest text-stone-400">{fact.category}</span>
+          </div>
+          <h3 className="font-serif font-bold text-[#0c0c0b] text-base leading-snug group-hover:text-[#c9a84c] transition-colors line-clamp-2">
+            {fact.title}
+          </h3>
+          <p className="text-sm text-stone-500 mt-1.5 line-clamp-2 leading-relaxed">{fact.summary}</p>
+          {meta}
         </div>
-        <h3 className="font-serif font-bold text-[#0c0c0b] text-base leading-snug group-hover:text-[#c9a84c] transition-colors line-clamp-2">
-          {fact.title}
-        </h3>
-        <p className="text-sm text-stone-500 mt-1.5 line-clamp-2 leading-relaxed">{fact.summary}</p>
-        {meta}
       </Link>
     </motion.div>
   )

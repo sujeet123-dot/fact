@@ -20,34 +20,11 @@ async function getData() {
   return { lead: lead[0] || null, featured, latest, trending }
 }
 
-const CATEGORIES = [
-  { name: 'Politics', slug: 'politics', icon: '🏛️' },
-  { name: 'Health', slug: 'health', icon: '🏥' },
-  { name: 'Science', slug: 'science', icon: '🔬' },
-  { name: 'Technology', slug: 'technology', icon: '💻' },
-  { name: 'Entertainment', slug: 'entertainment', icon: '🎬' },
-  { name: 'Environment', slug: 'environment', icon: '🌍' },
-]
-
 export default async function HomePage() {
   const { lead, featured, latest, trending } = await getData()
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-
-      {/* Categories strip */}
-      <div className="flex flex-wrap gap-x-6 gap-y-2 mb-8 pb-6 border-b border-[#ddd9d2]">
-        {CATEGORIES.map((cat) => (
-          <Link
-            key={cat.slug}
-            href={`/category/${cat.slug}`}
-            className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-stone-500 hover:text-[#c9a84c] transition-colors"
-          >
-            <span>{cat.icon}</span>
-            {cat.name}
-          </Link>
-        ))}
-      </div>
 
       {/* Headline ticker */}
       {latest.length > 0 && (
@@ -156,7 +133,7 @@ export default async function HomePage() {
                 { label: 'FALSE',    desc: 'The claim is inaccurate.',           cls: 'text-red-700'     },
                 { label: 'MIXTURE',  desc: 'Partially true; missing context.',   cls: 'text-amber-700'   },
                 { label: 'UNPROVEN', desc: 'Insufficient evidence either way.',  cls: 'text-stone-500'   },
-                { label: 'SATIRE',   desc: 'Originally satire, shared as fact.', cls: 'text-violet-700'  },
+                { label: 'SATIRE',   desc: 'Originally satire, shared as fact.', cls: 'text-[#0c0c0b]'   },
               ].map((v) => (
                 <div key={v.label} className="flex items-start gap-3">
                   <span className={`text-[10px] font-black uppercase tracking-widest pt-0.5 w-20 shrink-0 ${v.cls}`}>{v.label}</span>

@@ -69,8 +69,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     { label: 'False', color: 'text-red-400' },
                     { label: 'Mixture', color: 'text-amber-400' },
                     { label: 'Unproven', color: 'text-stone-400' },
-                    { label: 'Satire', color: 'text-violet-400' },
-                    { label: 'Outdated', color: 'text-orange-400' },
+                    { label: 'Satire', color: 'text-white' },
+                    { label: 'Outdated', color: 'text-stone-300' },
                   ].map((v) => (
                     <li key={v.label} className={`font-bold ${v.color}`}>{v.label}</li>
                   ))}
